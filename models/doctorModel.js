@@ -22,30 +22,6 @@ const doctorSchema = new mongoose.Schema({
         type: String,
         required: [true, "Specialty is required"]
     },
-    doctor_address: {
-        doctor_address_street: {
-            type: String,
-            required: [true, "Street is required"]
-        },
-        doctor_address_city: {
-            type: String,
-            required: [true, "City is required"]
-        },
-        doctor_address_country: {
-            type: String,
-            required: [true, "Country is required"]
-        },
-        doctor_address_coordinates: {
-            doctor_address_latitude: {
-                type: Number,
-                required: false
-            },
-            doctor_address_longitude: {
-                type: Number,
-                required: false
-            }
-        }
-    },
     doctor_phone: {
         type: String,
         required: [true, "Phone number is required"]
@@ -54,10 +30,6 @@ const doctorSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    doctor_cabinet_images: [{
-        type: String,
-        required: false
-    }],
     doctor_profile_description: {
         type: String,
         required: [true, "Profile description is required"]
@@ -72,10 +44,46 @@ const doctorSchema = new mongoose.Schema({
             required: false
         }
     }],
+    doctor_cabinet:{
+        doctor_cabinet_name: {
+            type: String,
+            required: [true, "Cabinet name is required"]
+        },
+        doctor_cabinet_images: [{
+            type: String,
+            required: false
+        }],
+        doctor_cabinet_address: {
+            doctor_cabinet_address_street: {
+                type: String,
+                required: [true, "Street is required"]
+            },
+            doctor_cabinet_address_city: {
+                type: String,
+                required: [true, "City is required"]
+            },
+            doctor_cabinet_address_country: {
+                type: String,
+                required: [true, "Country is required"]
+            },
+            doctor_cabinet_address_coordinates: {
+                doctor_cabinet_address_latitude: {
+                    type: Number,
+                    required: false
+                },
+                doctor_cabinet_address_longitude: {
+                    type: Number,
+                    required: false
+                }
+            }
+    },
+    },
+
     doctor_rdv_history: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'rdvModel'
     }],
+    
     doctor_compte_status: {
         type: String,
         required: [true, "Status is required"],

@@ -9,7 +9,7 @@ const rdvSchema = new mongoose.Schema({
         default: "available",
     },
     rdv_patient: { type: mongoose.Schema.Types.ObjectId, ref: "Patient" },
-    rdv_doctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
+    rdv_doctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor", default: null},
 },
 {
     timestamps: true,

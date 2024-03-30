@@ -109,107 +109,118 @@ const deleteRdv = asyncHandler(async (req, res) => {
 
 // Reserve a rdv only by patient
 const reserveRdv = asyncHandler(async (req, res) => {
-    try {
-        // Get the rdv id from the request body
-        const { rdv_id } = req.body;
+  try {
+    // Get the rdv id from the request body
+    const { rdv_id } = req.body;
 
-        if (!rdv_id) {
-            res.status(400);
-            throw new Error('Rdv id is required');
-        }
-
-        // Find the rdv by id
-        const rdv = await rdvModel.findById(rdv_id);
-        if (!rdv) {
-            res.status(404);
-            throw new Error('Rdv not found');
-        }
-
-        // Check if the rdv is already reserved
-        if (rdv.rdv_patient) {
-            res.status(400);
-            throw new Error('Rdv is already reserved');
-        }
-
-        // Reserve the rdv and set the rdv_status to 'reserved'
-        rdv.rdv_patient = req.patient._id;
-        rdv.rdv_status = 'reserved';
-        const reservedRdv = await rdv.save();
-
-        // Find the patient and add the rdv to their history
-        const patient = await patientModel.findById(req.patient._id);
-        patient.patient_rdv_history.push(reservedRdv._id);
-        await patient.save();
-
-        res.status(200).json(reservedRdv);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error' });
+    if (!rdv_id) {
+      res.status(400);
+      throw new Error("Rdv id is required");
     }
+
+    // Find the rdv by id
+    const rdv = await rdvModel.findById(rdv_id);
+    if (!rdv) {
+      res.status(404);
+      throw new Error("Rdv not found");
+    }
+
+    // Check if the rdv is already reserved
+    if (rdv.rdv_patient) {
+      res.status(400);
+      throw new Error("Rdv is already reserved");
+    }
+
+    // Reserve the rdv and set the rdv_status to 'reserved'
+    rdv.rdv_patient = req.patient._id;
+    rdv.rdv_status = "reserved";
+    const reservedRdv = await rdv.save();
+
+    // Find the patient and add the rdv to their history
+    const patient = await patientModel.findById(req.patient._id);
+    patient.patient_rdv_history.push(reservedRdv._id);
+    await patient.save();
+
+    res.status(200).json(reservedRdv);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 // Undo the reservation of a rdv only by patient
 const undoReserveRdv = asyncHandler(async (req, res) => {
-    try {
-        // Get the rdv id from the request body
-        const { rdv_id } = req.body;
+  try {
+    // Get the rdv id from the request body
+    const { rdv_id } = req.body;
 
-        if (!rdv_id) {
-            res.status(400);
-            throw new Error('Rdv id is required');
-        }
-
-        // Find the rdv by id
-        const rdv = await rdvModel.findById(rdv_id);
-        if (!rdv) {
-            res.status(404);
-            throw new Error('Rdv not found');
-        }
-
-        // Check if the rdv is reserved by the patient
-        if (rdv.rdv_patient.toString() !== req.patient._id.toString()) {
-            res.status(403);
-            throw new Error('You do not have permission to undo this reservation');
-        }
-
-        // Undo the reservation and set the rdv_status to 'available'
-        rdv.rdv_patient = null;
-        rdv.rdv_status = 'available';
-        const updatedRdv = await rdv.save();
-
-        // Find the patient and remove the rdv from their history
-        const patient = await patientModel.findById(req.patient._id);
-        patient.patient_rdv_history = patient.patient_rdv_history.filter(rdvId => rdvId.toString() !== rdv_id);
-        await patient.save();
-
-        res.status(200).json(updatedRdv);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error' });
+    if (!rdv_id) {
+      res.status(400);
+      throw new Error("Rdv id is required");
     }
-});
 
+    // Find the rdv by id
+    const rdv = await rdvModel.findById(rdv_id);
+    if (!rdv) {
+      res.status(404);
+      throw new Error("Rdv not found");
+    }
+
+    // Check if the rdv is reserved by the patient
+    if (rdv.rdv_patient.toString() !== req.patient._id.toString()) {
+      res.status(403);
+      throw new Error("You do not have permission to undo this reservation");
+    }
+
+    // Undo the reservation and set the rdv_status to 'available'
+    rdv.rdv_patient = null;
+    rdv.rdv_status = "available";
+    const updatedRdv = await rdv.save();
+
+    // Find the patient and remove the rdv from their history
+    const patient = await patientModel.findById(req.patient._id);
+    patient.patient_rdv_history = patient.patient_rdv_history.filter(
+      (rdvId) => rdvId.toString() !== rdv_id
+    );
+    await patient.save();
+
+    res.status(200).json(updatedRdv);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 // admin permission ___________________________________________________________
 
 // Get all rdvs
 const getAllRdvs = asyncHandler(async (req, res) => {
-    try {
-        const rdvs = await rdvModel.find();
-        res.status(200).json(rdvs);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error' });
-    }
+  try {
+    const rdvs = await rdvModel.find();
+    res.status(200).json(rdvs);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 // Get a rdv by id
 const getRdvById = asyncHandler(async (req, res) => {
-    try {
-        const rdv = await rdvModel.findById(req.params.id);
-        if (!rdv) {
-            res.status(404);
-            throw new Error('Rdv not found');
-        }
-        res.status(200).json(rdv);
-    } catch (err) {
-        res.status(500).json({ message: 'Internal Server Error' });
+  try {
+    const rdv = await rdvModel.findById(req.params.id);
+    if (!rdv) {
+      res.status(404);
+      throw new Error("Rdv not found");
     }
+    res.status(200).json(rdv);
+  } catch (err) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
+
+module.exports = {
+  createRdv,
+  updateRdv,
+  deleteRdv,
+  reserveRdv,
+  undoReserveRdv,
+  getAllRdvs,
+  getRdvById,
+};

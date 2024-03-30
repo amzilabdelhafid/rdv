@@ -11,7 +11,7 @@ const generateToken = (id) => {
 };
 
 // Admin login
-const login = asyncHandler(async (req, res) => {
+const loginAdmin = asyncHandler(async (req, res) => {
     const { admin_username, admin_password } = req.body;
 
     const admin = await Admin.findOne({ admin_username });
@@ -30,4 +30,4 @@ const login = asyncHandler(async (req, res) => {
 }
 );
 
-module.exports = { login };
+module.exports = { loginAdmin };

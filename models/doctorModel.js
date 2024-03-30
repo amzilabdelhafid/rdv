@@ -88,4 +88,3 @@ const doctorModel = mongoose.model('doctorModel', doctorSchema);
 
 module.exports = doctorModel;
 
-.env config/ models/ package-lock.json package.json server.js

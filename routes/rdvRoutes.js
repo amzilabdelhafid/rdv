@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const doctorAuth = require("../middleware/doctorAuth");
-const patientAuth = require("../middleware/patientAuth");
-const adminAuth = require("../middleware/adminAuth");
+const doctorAuth = require("../middleware/doctorMiddleware");
+const patientAuth = require("../middleware/patientMiddleware");
+const adminAuth = require("../middleware/adminMiddleware");
 const {
     createRdv,
     updateRdv,

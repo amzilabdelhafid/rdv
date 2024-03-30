@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { registerDoctor, loginDoctor, getDoctorProfile, updateDoctorProfile } = require('../controllers/doctorController'); 
-const doctorAuth = require('../middleware/doctorAuth');
+const doctorAuth = require('../middleware/doctorMiddleware');
 
 
 router.route('/register').post(registerDoctor);

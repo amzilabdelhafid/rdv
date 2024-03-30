@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
-const Doctor = require('./models/doctorModel');
+const Doctor = require('../models/doctorModel');
 
 // generate token
 const generateToken = (id) => {

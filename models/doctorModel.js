@@ -3,23 +3,24 @@ const mongoose = require('mongoose');
 const doctorSchema = new mongoose.Schema({
     doctor_firstname: {
         type: String,
-        required: true
+        required: [true, "First name is required"]
     },
     doctor_lastname: {
         type: String,
-        required: true
+        required: [true, "Last name is required"]
     },
     doctor_email: {
         type: String,
-        required: true
+        required: [true, "Email is required"],
+        unique: true
     },
     doctor_password: {
         type: String,
-        required: true
+        required: [true, "Password is required"]
     },
     doctor_specialty: {
         type: String,
-        required: true
+        required: [true, "Specialty is required"]
     },
     doctor_address: {
         doctor_address_street: {
@@ -47,7 +48,7 @@ const doctorSchema = new mongoose.Schema({
     },
     doctor_phone: {
         type: String,
-        required: true
+        required: [true, "Phone number is required"]
     },
     doctor_profile_picture: {
         type: String,
@@ -59,16 +60,16 @@ const doctorSchema = new mongoose.Schema({
     }],
     doctor_profile_description: {
         type: String,
-        required: false
+        required: [true, "Profile description is required"]
     },
     doctor_certifications: [{
         doctor_certification_name: {
             type: String,
-            required: true
+            required: false
         },
         doctor_certification_image: {
             type: String,
-            required: true
+            required: false
         }
     }],
     doctor_rdv_history: [{
@@ -77,7 +78,7 @@ const doctorSchema = new mongoose.Schema({
     }],
     doctor_compte_status: {
         type: String,
-        required: true
+        required: [true, "Status is required"],
     }
 },
     {

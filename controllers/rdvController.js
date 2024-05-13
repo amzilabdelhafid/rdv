@@ -222,5 +222,5 @@ module.exports = {
   reserveRdv,
   undoReserveRdv,
   getAllRdvs,
-  getRdvById,
+  getRdvById
 };
